@@ -1,0 +1,12 @@
+.nav_link {
+  color: #1266f1;
+}
+
+.nav_link:first-child {
+  margin-right: 20px;
+}
+
+.nav_link__active {
+  color: #fff;
+  text-decoration: underline;
+}

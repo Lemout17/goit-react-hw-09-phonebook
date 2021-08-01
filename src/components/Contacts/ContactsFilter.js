@@ -7,7 +7,7 @@ import contactsSelectors from "../../redux/contacts/contacts-selectors";
 import s from "./ContactsFilter.module.css";
 import { MDBInput } from "mdb-react-ui-kit";
 
-const ContactsFilter = () => {
+export default function ContactsFilter() {
   const value = useSelector(contactsSelectors.getFilter);
 
   const dispatch = useDispatch();
@@ -29,11 +29,9 @@ const ContactsFilter = () => {
       />
     </form>
   );
-};
+}
 
 ContactsFilter.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
-
-export default ContactsFilter;

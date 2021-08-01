@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import routes from "../../routes";
 import s from "./Navigation.module.css";
 
-const AuthNav = () => {
+export default function AuthNav() {
   return (
     <div>
       <NavLink
@@ -21,6 +21,4 @@ const AuthNav = () => {
       </NavLink>
     </div>
   );
-};
-
-export default AuthNav;
+}

@@ -7,7 +7,7 @@ import contactsSelectors from "../../redux/contacts/contacts-selectors";
 
 import s from "./Contacts.module.css";
 
-const Contacts = () => {
+export default function Contacts() {
   const contacts = useSelector(contactsSelectors.getFilteredContacts);
 
   const dispatch = useDispatch();
@@ -31,6 +31,4 @@ const Contacts = () => {
       )}
     </>
   );
-};
-
-export default Contacts;
+}

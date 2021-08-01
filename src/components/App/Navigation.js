@@ -6,7 +6,7 @@ import routes from "../../routes";
 
 import s from "./Navigation.module.css";
 
-const Navigation = () => {
+export default function Navigation() {
   const isAuth = useSelector(authSelectors.getIsAuth);
 
   return (
@@ -31,6 +31,4 @@ const Navigation = () => {
       )}
     </nav>
   );
-};
-
-export default Navigation;
+}

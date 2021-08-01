@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import s from "./Contacts.module.css";
 import { MDBBtn } from "mdb-react-ui-kit";
 
-const ContactsItem = ({ id, name, number, onDelete }) => {
+export default function ContactsItem({ id, name, number, onDelete }) {
   return (
     <li className={s.item} key={id}>
       <span className={s.text}>{name} :</span>
@@ -23,12 +23,10 @@ const ContactsItem = ({ id, name, number, onDelete }) => {
       </MDBBtn>
     </li>
   );
-};
+}
 
 ContactsItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
 };
-
-export default ContactsItem;

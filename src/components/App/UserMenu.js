@@ -6,7 +6,7 @@ import s from "./UserMenu.module.css";
 
 import { MDBBtn } from "mdb-react-ui-kit";
 
-const UserMenu = () => {
+export default function UserMenu() {
   const name = useSelector(authSelectors.getUserName);
   const avatar = defaultImage;
 
@@ -23,6 +23,4 @@ const UserMenu = () => {
       </MDBBtn>
     </div>
   );
-};
-
-export default UserMenu;
+}

@@ -1,5 +1,4 @@
 import "modern-normalize/modern-normalize.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import s from "./App.module.css";
 
@@ -11,7 +10,7 @@ import routes from "../../routes";
 
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-// import Container from "../Container"
+
 import AppBar from "../App/AppBar";
 import Loader from "react-loader-spinner";
 

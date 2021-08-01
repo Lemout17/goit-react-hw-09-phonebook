@@ -6,7 +6,7 @@ import s from "./AppBar.module.css";
 import { authSelectors } from "../../redux/auth";
 import Clock from "../Clock";
 
-const AppBar = () => {
+export default function AppBar() {
   const isAuth = useSelector(authSelectors.getIsAuth);
 
   return (
@@ -18,6 +18,4 @@ const AppBar = () => {
       {isAuth ? <UserMenu /> : <AuthNav />}
     </header>
   );
-};
-
-export default AppBar;
+}

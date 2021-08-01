@@ -1,30 +1,28 @@
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { authSelectors, authOperations } from "../../redux/auth";
 
 import defaultImage from "../../img/poggers.png";
 import s from "./UserMenu.module.css";
-// import Button from "react-bootstrap/Button"
+
 import { MDBBtn } from "mdb-react-ui-kit";
 
-const UserMenu = ({ avatar, name, onLogout }) => {
+const UserMenu = () => {
+  const name = useSelector(authSelectors.getUserName);
+  const avatar = defaultImage;
+
+  const dispatch = useDispatch();
+  const onLogOut = () => dispatch(authOperations.logOut());
+
   return (
     <div className={s.container}>
       <img className={s.img} src={avatar} alt="" />
       <span className={s.text}>Hi, {name}</span>
 
-      <MDBBtn rounded className="mx-2" color="danger" onClick={onLogout}>
+      <MDBBtn rounded className="mx-2" color="danger" onClick={onLogOut}>
         Log out
       </MDBBtn>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  name: authSelectors.getUserName(state),
-  avatar: defaultImage,
-});
-const mapDispatchToProps = {
-  onLogout: authOperations.logOut,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);
+export default UserMenu;

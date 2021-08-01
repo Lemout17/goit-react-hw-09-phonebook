@@ -1,74 +1,73 @@
-import { Component } from "react";
-import { connect } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { authOperations } from "../redux/auth";
 import { MDBInput } from "mdb-react-ui-kit";
 
 import s from "../components/Form/Form.module.css";
 import { MDBBtn } from "mdb-react-ui-kit";
 
-class LoginView extends Component {
-  state = {
-    email: "",
-    password: "",
+// const mapDispatchToProps = {
+//   onLogin: authOperations.logIn,
+// }
+
+export default function LoginView() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleChange = (name) => (e) => {
+    switch (name) {
+      case "email":
+        return setEmail(e.target.value);
+      case "password":
+        return setPassword(e.target.value);
+
+      default:
+        return null;
+    }
   };
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
+  const dispatch = useDispatch();
+  const onLogin = (data) => dispatch(authOperations.logIn(data));
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onLogin(this.state);
-    this.reset();
+
+    onLogin({ email, password });
+
+    setEmail("");
+    setPassword("");
   };
 
-  reset = () => {
-    this.setState({
-      email: "",
-      password: "",
-    });
-  };
+  return (
+    <div className={s.container}>
+      <h1>Log in</h1>
 
-  render() {
-    const { email, password } = this.state;
+      <form className={s.form} onSubmit={handleSubmit}>
+        <MDBInput
+          className="text-light"
+          label="Email"
+          id="typeEmail"
+          contrast
+          autoComplete="off"
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleChange("email")}
+        />
 
-    return (
-      <div className={s.container}>
-        <h1>Log in</h1>
+        <MDBInput
+          className="text-light"
+          label="Password"
+          id="typePassword"
+          contrast
+          type="password"
+          name="password"
+          value={password}
+          onChange={handleChange("password")}
+        />
 
-        <form className={s.form} onSubmit={this.handleSubmit}>
-          <MDBInput
-            className="text-light"
-            label="Email"
-            id="typeEmail"
-            contrast
-            autoComplete="off"
-            type="email"
-            name="email"
-            value={email}
-            onChange={this.handleChange}
-          />
-
-          <MDBInput
-            className="text-light"
-            label="Password"
-            id="typePassword"
-            contrast
-            type="password"
-            name="password"
-            value={password}
-            onChange={this.handleChange}
-          />
-
-          <MDBBtn rounded>Log in</MDBBtn>
-        </form>
-      </div>
-    );
-  }
+        <MDBBtn rounded>Log in</MDBBtn>
+      </form>
+    </div>
+  );
 }
-const mapDispatchToProps = {
-  onLogin: authOperations.logIn,
-};
-
-export default connect(null, mapDispatchToProps)(LoginView);

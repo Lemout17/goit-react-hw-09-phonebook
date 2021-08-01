@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import ContactsItem from "./ContactsItem";
 
@@ -7,7 +7,12 @@ import contactsSelectors from "../../redux/contacts/contacts-selectors";
 
 import s from "./Contacts.module.css";
 
-const Contacts = ({ contacts, onDelete }) => {
+const Contacts = () => {
+  const contacts = useSelector(contactsSelectors.getFilteredContacts);
+
+  const dispatch = useDispatch();
+  const onDelete = (id) => dispatch(contactsOperations.deleteContact(id));
+
   return (
     <>
       {contacts.length > 0 && (
@@ -15,10 +20,10 @@ const Contacts = ({ contacts, onDelete }) => {
           <ul className={s.list}>
             {contacts.map(({ id, name, number }) => (
               <ContactsItem
-                id={id}
+                key={id}
                 name={name}
                 number={number}
-                onDelete={onDelete}
+                onDelete={() => onDelete(id)}
               />
             ))}
           </ul>
@@ -28,12 +33,4 @@ const Contacts = ({ contacts, onDelete }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  contacts: contactsSelectors.getFilteredContacts(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onDelete: (id) => dispatch(contactsOperations.deleteContact(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default Contacts;

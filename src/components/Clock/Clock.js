@@ -4,12 +4,12 @@ export default function Clock() {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    const clockIterval = setInterval(() => {
+    const clockInterval = setInterval(() => {
       setTime(new Date());
     }, 1000);
 
     return () => {
-      clearInterval(clockIterval);
+      clearInterval(clockInterval);
     };
   }, []);
 

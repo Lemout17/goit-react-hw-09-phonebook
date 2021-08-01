@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import Navigation from "./Navigation";
 import AuthNav from "./AuthNav";
 import UserMenu from "./UserMenu";
@@ -6,7 +6,9 @@ import s from "./AppBar.module.css";
 import { authSelectors } from "../../redux/auth";
 import Clock from "../Clock";
 
-const AppBar = ({ isAuth }) => {
+const AppBar = () => {
+  const isAuth = useSelector(authSelectors.getIsAuth);
+
   return (
     <header className={s.header}>
       <Navigation />
@@ -17,8 +19,5 @@ const AppBar = ({ isAuth }) => {
     </header>
   );
 };
-const mapStateToProps = (state) => ({
-  isAuth: authSelectors.getIsAuth(state),
-});
 
-export default connect(mapStateToProps, null)(AppBar);
+export default AppBar;

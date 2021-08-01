@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { connect } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Section from "../components/Section";
 import Form from "../components/Form";
@@ -12,52 +12,44 @@ import contactsSelectors from "../redux/contacts/contacts-selectors";
 
 import s from "./ContactsView.module.css";
 
-class ContactsView extends Component {
-  componentDidMount() {
-    this.props.fetchContact();
-  }
+export default function ContactsView() {
+  const contacts = useSelector(contactsSelectors.getContacts);
+  const isLoading = useSelector(contactsSelectors.getLoading);
+  const contactsError = useSelector(contactsSelectors.getError);
 
-  render() {
-    const { isLoading, contactsError, contacts } = this.props;
+  const dispatch = useDispatch();
 
-    return (
-      <main>
-        <Section title={"Contacts"}>
-          <div className={s.container}>
-            <Form />
+  useEffect(() => {
+    const fetchContact = () => dispatch(contactsOperations.fetchContact());
 
-            {contacts.length > 1 && <ContactsFilter />}
+    fetchContact();
+  }, [dispatch]);
 
-            {isLoading ? (
-              <Loader
-                className={s.loader}
-                type="Rings"
-                color="#00BFFF"
-                height={80}
-                width={80}
-              />
-            ) : contactsError ? (
-              <h2 className={s.error}>
-                Sorry, something went wrong({contactsError})
-              </h2>
-            ) : (
-              <Contacts />
-            )}
-          </div>
-        </Section>
-      </main>
-    );
-  }
+  return (
+    <main>
+      <Section title={"Contacts"}>
+        <div className={s.container}>
+          <Form />
+
+          {contacts.length > 1 && <ContactsFilter />}
+
+          {isLoading ? (
+            <Loader
+              className={s.loader}
+              type="Rings"
+              color="#00BFFF"
+              height={80}
+              width={80}
+            />
+          ) : contactsError ? (
+            <h2 className={s.error}>
+              Sorry, something went wrong({contactsError})
+            </h2>
+          ) : (
+            <Contacts />
+          )}
+        </div>
+      </Section>
+    </main>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  contacts: contactsSelectors.getContacts(state),
-  isLoading: contactsSelectors.getLoading(state),
-  contactsError: contactsSelectors.getError(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchContact: () => dispatch(contactsOperations.fetchContact()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);

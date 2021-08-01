@@ -26,7 +26,7 @@ const ContactsItem = ({ id, name, number, onDelete }) => {
 };
 
 ContactsItem.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
 };

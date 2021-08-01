@@ -3,9 +3,9 @@ import "modern-normalize/modern-normalize.css";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import s from "./App.module.css";
 
-import { Component, Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Switch } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authOperations } from "../../redux/auth";
 import routes from "../../routes";
 
@@ -28,55 +28,49 @@ const RegisterView = lazy(() =>
   import("../../views/RegisterView" /* webpackChunkName: "register-page" */)
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.getUser();
-  }
+export default function App() {
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <>
-        <AppBar />
+  useEffect(() => {
+    dispatch(authOperations.getCurrentUser());
+  }, [dispatch]);
 
-        <Suspense
-          fallback={
-            <Loader
-              className={s.loader}
-              type="Rings"
-              color="#00BFFF"
-              height={80}
-              width={80}
-            />
-          }
-        >
-          <Switch>
-            <PublicRoute exact path={routes.home} component={HomeView} />
-            <PublicRoute
-              path={routes.register}
-              restricted
-              redirectTo={routes.contacts}
-              component={RegisterView}
-            />
-            <PublicRoute
-              path={routes.login}
-              restricted
-              redirectTo={routes.contacts}
-              component={LoginView}
-            />
-            <PrivateRoute
-              path={routes.contacts}
-              component={ContactsView}
-              redirectTo={routes.login}
-            />
-          </Switch>
-        </Suspense>
-      </>
-    );
-  }
+  return (
+    <>
+      <AppBar />
+
+      <Suspense
+        fallback={
+          <Loader
+            className={s.loader}
+            type="Rings"
+            color="#00BFFF"
+            height={80}
+            width={80}
+          />
+        }
+      >
+        <Switch>
+          <PublicRoute exact path={routes.home} component={HomeView} />
+          <PublicRoute
+            path={routes.register}
+            restricted
+            redirectTo={routes.contacts}
+            component={RegisterView}
+          />
+          <PublicRoute
+            path={routes.login}
+            restricted
+            redirectTo={routes.contacts}
+            component={LoginView}
+          />
+          <PrivateRoute
+            path={routes.contacts}
+            component={ContactsView}
+            redirectTo={routes.login}
+          />
+        </Switch>
+      </Suspense>
+    </>
+  );
 }
-
-const mapDispatchToProps = {
-  getUser: authOperations.getCurrentUser,
-};
-
-export default connect(null, mapDispatchToProps)(App);
